@@ -1,0 +1,33 @@
+﻿@using OpenCvSharp
+@inject HttpClient Http
+
+<div style="display:flex; flex-direction:column; gap:24px;">
+
+    <div>
+        <img src="./assets/table.png" alt="An image of a table" />
+    </div>
+
+    <div>
+        <button @onclick="OnClickLoadImage">
+            Load the above image
+        </button>
+    </div>
+
+    @if (_loadedImage != null)
+    {
+        <div>
+            Loaded image size is: @_loadedImage.Width x @_loadedImage.Height
+        </div>
+    }
+</div>
+
+@code
+{
+    private Mat? _loadedImage;
+
+    protected async Task OnClickLoadImage()
+    {
+        var imageBytes = await Http.GetByteArrayAsync("./assets/table.png");
+        _loadedImage = Mat.FromImageData(imageBytes, ImreadModes.Unchanged);
+    }
+}
