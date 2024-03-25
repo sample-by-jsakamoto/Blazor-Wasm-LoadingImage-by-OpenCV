@@ -4,7 +4,7 @@
 <div style="display:flex; flex-direction:column; gap:24px;">
 
     <div>
-        <img src="./assets/table.png" alt="An image of a table" />
+        <img src="@($"./assets/{_fileName}")" alt="An image of a table" />
     </div>
 
     <div>
@@ -23,11 +23,16 @@
 
 @code
 {
+    private string _fileName = "table.bmp"; // OK
+    // private string _fileName = "table.png"; // NG
+    // private string _fileName = "table.gif"; // NG
+    // private string _fileName = "table.jpg"; // NG
+
     private Mat? _loadedImage;
 
     protected async Task OnClickLoadImage()
     {
-        var imageBytes = await Http.GetByteArrayAsync("./assets/table.png");
+        var imageBytes = await Http.GetByteArrayAsync($"./assets/{_fileName}");
         _loadedImage = Mat.FromImageData(imageBytes, ImreadModes.Unchanged);
     }
 }
